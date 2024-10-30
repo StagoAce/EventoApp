@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 const pages = [
   { name: 'Inicio', path: '/dashboard' },
   { name: 'Cliente', path: '/cliente/eventos/all' },
-  { name: 'Productor', path: '/productor' }
+  { name: 'Productor', path: '/productor/eventos/all' }
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 

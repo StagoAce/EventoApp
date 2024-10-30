@@ -288,12 +288,25 @@ def get_all_eventos(request):
 
 def get_all_eventos_by_client(request, user_cedula):
     try:
-        eventos = evento_collection.find()
-        eventos_list = list(eventos)
-        # Serializar cada evento
-        eventos_list = [serialize_evento(evento) for evento in eventos_list]
-        
-        return JsonResponse(eventos_list, safe=False, status=status.HTTP_200_OK) 
+        user = user_collection.find_one({"cedula": user_cedula})
+        if user is not None:
+            eventos_in = user.get("eventos_in", [])
+            
+            evento_ids = [ObjectId(event_id) for event_id in eventos_in]
+
+            # Buscar los eventos en la colección de eventos
+            eventos = list(evento_collection.find({"_id": {"$in": evento_ids}}))
+            
+            # Serializar cada evento, eliminar la lista de asistentes y agregar la cantidad de asistentes
+            eventos_serializados = [
+                {**{key: value for key, value in serialize_evento(evento).items() if key != 'asistentes'},
+                 'num_asistentes': len(evento.get("asistentes", []))}  # Añadir número de asistentes
+                for evento in eventos
+            ]
+
+            return JsonResponse(eventos_serializados, safe=False, status=200)
+        else:
+            return JsonResponse({"error": "Usuario no encontrado"}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

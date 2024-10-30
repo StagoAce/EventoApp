@@ -2,8 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from './components/login/login';
 import Dashboard from './components/dashboard';
-import Events from './components/productor/events';
+import Events from './components/cliente/events';
 import RegisterForm from './components/login/registrarse'; // Importar el componente de registro
+import EventsProductor from './components/productor/events';
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
         <Route path="/register" element={<RegisterForm />} /> {/* Ruta para el registro */}
         <Route path="/dashboard" element={<PrivateRoute component={Dashboard} />} />
         <Route path="/cliente/eventos/all" element={<PrivateRoute component={Events} />} />
-        <Route path="/productor/eventos/all" element={<PrivateRoute component={Events} />} />
+        <Route path="/productor/eventos/all" element={<PrivateRoute component={EventsProductor} />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>

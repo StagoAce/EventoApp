@@ -18,7 +18,12 @@ const Events = () => {
       <Box sx={{ padding: 2 }}>
         <Typography variant="h4" align="center">Eventos</Typography>
         
-        <Tabs value={value} onChange={handleTabChange} sx={{ marginBottom: 2 }}>
+        <Tabs
+          value={value}
+          onChange={handleTabChange}
+          centered
+          sx={{ marginBottom: 2 }}
+        >
           <Tab label="Todos los Eventos" />
           <Tab label="Eventos Inscritos" />
         </Tabs>

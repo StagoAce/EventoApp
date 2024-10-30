@@ -1,6 +1,17 @@
 import pymongo
+import os
+from dotenv import load_dotenv
 
-url = "mongodb+srv://stagoace:Sc1040950043@cluster.t2jyj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster"
-client = pymongo.MongoClient(url)
+# Cargar variables de entorno desde un archivo .env
+load_dotenv()
 
-db = client['Eventos']
+# URL de conexión obtenida de variables de entorno
+url = os.getenv("MONGODB_URL")
+client = None
+
+try:
+    client = pymongo.MongoClient(url)
+    db = client['Eventos']
+    print("Conexión a MongoDB exitosa")
+except pymongo.errors.ConnectionError as e:
+    print(f"Error de conexión a MongoDB: {e}")
